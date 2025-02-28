@@ -1,29 +1,33 @@
-# Use Python 3.9 slim as base image 
-FROM python:3.9-slim
+# pull official base image
+FROM python:3.8.3-alpine
 
-# Set working directory for the application
-WORKDIR /app
+# set work directory
+WORKDIR /usr/src/app
 
-# Set environment variables 
+# set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# Upgrade pip to the latest version
+# install dependencies
 RUN pip install --upgrade pip
+COPY ./requirements.txt .
+RUN apk add --update --no-cache postgresql-client
+# install temp dependencies for build of pyscopg2 etc
+RUN apk add --update --no-cache --virtual .tmp-build-deps \
+  gcc \
+  libc-dev \
+  linux-headers \
+  postgresql-dev \
+  musl-dev \
+  zlib zlib-dev \
+  && pip install -r requirements.txt \
+  && apk del --no-cache .tmp-build-deps
 
-# Copy requirements file and install Python dependencies
-COPY requirements.txt .
+# copy entrypoint.sh
+COPY ./entrypoint.sh .
 
-# Install PostgreSQL client 
-RUN apt-get update && apt-get install -y postgresql-client
-
-# Install temporary build dependencies (gcc) for psycopg2, install Python packages, then clean up to reduce image size
-RUN apt-get install -y --no-install-recommends gcc && \
-    pip install -r requirements.txt && \
-    apt-get purge -y --auto-remove gcc
-
-# Copy the entire project to the container
+# copy project
 COPY . .
 
-# Command to run the Django development server, exposing it on all interfaces for Docker
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# run entrypoint.sh
+ENTRYPOINT "sh" "/usr/src/app/entrypoint.sh"
