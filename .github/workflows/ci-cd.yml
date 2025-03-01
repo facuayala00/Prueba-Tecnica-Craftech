@@ -30,4 +30,4 @@ jobs:
           docker-compose up -d
           sleep 5  # Espera a que el contenedor inicie
           curl -s http://localhost:8080 | grep -oP '(?<=<h1>).*(?=</h1>)'
-          docker-compose down  # Detiene y elimina los contenedores después de la prueba
+          docker-compose down  

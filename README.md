@@ -14,9 +14,3 @@ La lista de tareas a realizar se encuentran en el archivo `enunciados.pdf`.
 - `/prueba-1`: Diagrama de red y descripción de aplicación web en AWS.
 - `/prueba-2`: Deployment dockerizado de aplicación Django.
 - `/prueba-3`: Configuración de Nginx y pipeline CI/CD.
-
-## Instrucciones generales
-1. Para clonar el repositorio:
-   ```bash
-   git clone git@github.com:facuayala00/Prueba-Tecnica-Craftech.git
-   cd devops-trainee-challenge
