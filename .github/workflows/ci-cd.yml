@@ -1,0 +1,33 @@
+name: CI/CD Pipeline for NGINX
+
+on:
+  push:
+    paths:
+      - 'prueba-3/index.html'
+      - 'prueba-3/Dockerfile'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+
+      - name: Build Docker Image
+        run: |
+          cd prueba-3
+          docker-compose build
+
+      - name: Deploy and Test Locally in Runner
+        run: |
+          cd prueba-3
+          docker-compose up -d
+          sleep 5  # Espera a que el contenedor inicie
+          curl -s http://localhost:8080 | grep -oP '(?<=<h1>).*(?=</h1>)'
+          docker-compose down  # Detiene y elimina los contenedores después de la prueba

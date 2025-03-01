@@ -13,10 +13,10 @@ Para poder compilar y desplegar la aplicación, necesitarás tener instalado lo 
 ## Desarrollo Local
 
 ### 1. Clonar el Repositorio
-Clona este repositorio en tu máquina local:
+Clona el repositorio y accede al directorio del proyecto:
 ```bash
-git clone https://github.com/<tu-usuario>/<tu-repositorio>.git
-cd <tu-repositorio>
+git clone git@github.com:facuayala00/Prueba-Tecnica-Craftech.git
+cd Prueba-Tecnica-Craftech/prueba-2
 ```
 
 ### 2. Configurar archivo `.env`
